@@ -1,0 +1,109 @@
+<div class="settings">
+  <button
+    type="button"
+    class="settings__trigger"
+    [class.settings__trigger--active]="open()"
+    [attr.aria-label]="i18n.t().settings.open"
+    [attr.aria-expanded]="open()"
+    aria-haspopup="menu"
+    (click)="toggle()"
+  >
+    <svg
+      class="settings__icon"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="3" />
+      <path
+        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"
+      />
+    </svg>
+  </button>
+
+  @if (open()) {
+    <div class="settings__menu" role="menu">
+      <div class="settings__group" role="group" [attr.aria-label]="i18n.t().settings.language">
+        <p class="settings__label">{{ i18n.t().settings.language }}</p>
+        <div class="settings__row">
+          @for (code of i18n.supported; track code) {
+            <button
+              type="button"
+              role="menuitemradio"
+              class="settings__option"
+              [class.settings__option--active]="code === i18n.lang()"
+              [attr.aria-checked]="code === i18n.lang()"
+              [attr.lang]="code"
+              (click)="selectLang(code)"
+            >
+              {{ code.toUpperCase() }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="settings__group" role="group" [attr.aria-label]="i18n.t().settings.theme">
+        <p class="settings__label">{{ i18n.t().settings.theme }}</p>
+        <div class="settings__row">
+          <button
+            type="button"
+            role="menuitemradio"
+            class="settings__option"
+            [class.settings__option--active]="theme.mode() === 'light'"
+            [attr.aria-checked]="theme.mode() === 'light'"
+            (click)="selectTheme('light')"
+          >
+            {{ i18n.t().settings.light }}
+          </button>
+          <button
+            type="button"
+            role="menuitemradio"
+            class="settings__option"
+            [class.settings__option--active]="theme.mode() === 'dark'"
+            [attr.aria-checked]="theme.mode() === 'dark'"
+            (click)="selectTheme('dark')"
+          >
+            {{ i18n.t().settings.dark }}
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="settings__group"
+        role="group"
+        [attr.aria-label]="i18n.t().settings.presentation"
+      >
+        <p class="settings__label">{{ i18n.t().settings.presentation }}</p>
+        <div class="settings__row">
+          <button
+            type="button"
+            role="menuitemradio"
+            class="settings__option"
+            [class.settings__option--active]="presentation.mode() === 'minimal'"
+            [attr.aria-checked]="presentation.mode() === 'minimal'"
+            (click)="selectPresentation('minimal')"
+          >
+            {{ i18n.t().settings.minimal }}
+          </button>
+          <button
+            type="button"
+            role="menuitemradio"
+            class="settings__option"
+            [class.settings__option--active]="presentation.mode() === 'expressive'"
+            [attr.aria-checked]="presentation.mode() === 'expressive'"
+            (click)="selectPresentation('expressive')"
+          >
+            {{ i18n.t().settings.expressive }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

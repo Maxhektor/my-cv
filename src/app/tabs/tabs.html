@@ -1,0 +1,23 @@
+<div
+  class="tablist"
+  role="tablist"
+  [attr.aria-label]="listLabel()"
+  (keydown)="onKeydown($event)"
+>
+  @for (tab of tabs(); track tab.id) {
+    <button
+      #tabButton
+      type="button"
+      role="tab"
+      class="tab"
+      [class.tab--active]="tab.id === activeId()"
+      [id]="tabId(tab.id)"
+      [attr.aria-selected]="tab.id === activeId()"
+      [attr.aria-controls]="panelId(tab.id)"
+      [attr.tabindex]="tab.id === activeId() ? 0 : -1"
+      (click)="select(tab.id)"
+    >
+      {{ tab.label }}
+    </button>
+  }
+</div>

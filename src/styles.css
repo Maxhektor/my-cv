@@ -1,1 +1,132 @@
-/* You can add global styles to this file, and also import other style files */
+/* Design tokens. Change --color-accent to retheme the site. */
+:root {
+  --color-bg: #fbfbf9;
+  --color-surface: #ffffff;
+  --color-text: #1a1b1f;
+  --color-text-muted: #6b6f76;
+  --color-border: #e6e6e2;
+  --color-border-strong: #1a1b1f;
+  --color-accent: #1f3a5f;
+  --color-accent-soft: #1f3a5f14;
+  --color-danger: #b8392a;
+  --color-danger-soft: #b8392a14;
+
+  --shadow-popover: 0 12px 32px -16px rgba(20, 22, 28, 0.28),
+    0 2px 6px rgba(20, 22, 28, 0.06);
+
+  --font-display: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 4rem;
+  --space-7: 6rem;
+
+  --content-max: 780px;
+
+  --transition-fast: 120ms ease;
+  --transition-base: 180ms ease;
+
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --color-bg: #0e1014;
+  --color-surface: #15181e;
+  --color-text: #ecedef;
+  --color-text-muted: #8a8f98;
+  --color-border: #242832;
+  --color-border-strong: #ecedef;
+  --color-accent: #7aa2d9;
+  --color-accent-soft: #7aa2d924;
+  --color-danger: #e07a6e;
+  --color-danger-soft: #e07a6e24;
+
+  --shadow-popover: 0 16px 40px -16px rgba(0, 0, 0, 0.7),
+    0 2px 8px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+p {
+  margin: 0 0 var(--space-2);
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition-base);
+}
+
+a:hover,
+a:focus-visible {
+  border-bottom-color: var(--color-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+button {
+  font-family: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* ---------------------------------------------------------------------------
+   Expressive mode
+   The settings menu can switch the site between "minimal" (default editorial)
+   and "expressive". When expressive is active, <html data-presentation="expressive">
+   is set, and a <div class="expressive-stage"> is mounted at the top of the page.
+   Add flashy content / overrides below.
+   --------------------------------------------------------------------------- */
+
+.expressive-stage {
+  /* Empty slot. Mount Spline canvas, animated gradient, parallax layers, etc. */
+}
+
+:root[data-presentation='expressive'] {
+  /* Add expressive-mode overrides here:
+     - Saturated accent: e.g. --color-accent: #...
+     - Display font swap
+     - Different surface/border treatment
+     Tokens cascade — anything redefined here applies in both light and dark. */
+}
+
+:root[data-presentation='expressive'][data-theme='dark'] {
+  /* Dark-only expressive overrides go here. */
+}

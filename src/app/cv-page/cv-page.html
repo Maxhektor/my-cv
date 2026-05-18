@@ -1,0 +1,84 @@
+<a class="skip-link" href="#main">{{ i18n.t().header.skipToContent }}</a>
+
+@if (presentation.mode() === 'expressive') {
+  <!-- Expressive-mode stage. Drop flashy content here (Spline canvas, animated gradient, etc.). -->
+  <div class="expressive-stage" aria-hidden="true"></div>
+}
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <div class="site-header__intro">
+      <h1 class="site-header__name">{{ contact.fullName }}</h1>
+      <p class="site-header__title">{{ i18n.t().cv.title }}</p>
+    </div>
+    <app-settings-menu />
+  </div>
+</header>
+
+<main id="main" class="main">
+  <div class="role-selector" role="radiogroup" [attr.aria-label]="i18n.t().cv.roleSelectorLabel">
+    @for (id of roleIds; track id) {
+      <button
+        type="button"
+        role="radio"
+        class="role-selector__option"
+        [class.role-selector__option--active]="activeRoleId() === id"
+        [attr.aria-checked]="activeRoleId() === id"
+        (click)="setRole(id)"
+      >
+        {{ i18n.t().cv.roles[id].label }}
+      </button>
+    }
+  </div>
+
+  <section class="sections" [attr.aria-label]="i18n.t().header.sectionsLabel">
+    <app-tabs
+      [tabs]="tabs()"
+      [(activeId)]="activeId"
+      [listLabel]="i18n.t().header.sectionsLabel"
+    />
+
+    @for (section of [activeSection()]; track section.id) {
+      <div
+        class="panel"
+        role="tabpanel"
+        [id]="panelId(section.id)"
+        [attr.aria-labelledby]="tabId(section.id)"
+        tabindex="0"
+      >
+        @if (section.id === 'contact') {
+          <ul class="panel__contact">
+            <li>
+              <span class="panel__contact-label">{{ i18n.t().cv.contactLabels.email }}</span>
+              <a [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+            </li>
+            <li>
+              <span class="panel__contact-label">{{ i18n.t().cv.contactLabels.phone }}</span>
+              <a [href]="phoneHref">{{ contact.phone }}</a>
+            </li>
+            <li>
+              <span class="panel__contact-label">{{ i18n.t().cv.contactLabels.address }}</span>
+              {{ contact.address }}
+            </li>
+          </ul>
+          <app-contact-form />
+        } @else {
+          @if (section.intro) {
+            <p class="panel__text">{{ section.intro }}</p>
+          }
+          @if (section.bullets.length > 0) {
+            <ul class="panel__list">
+              @for (bullet of section.bullets; track $index) {
+                <li>{{ bullet }}</li>
+              }
+            </ul>
+          }
+        }
+      </div>
+    }
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p class="site-footer__text">© {{ currentYear }} {{ contact.fullName }}</p>
+</footer>
