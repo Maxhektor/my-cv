@@ -75,35 +75,6 @@
         </div>
       </div>
 
-      <div
-        class="settings__group"
-        role="group"
-        [attr.aria-label]="i18n.t().settings.presentation"
-      >
-        <p class="settings__label">{{ i18n.t().settings.presentation }}</p>
-        <div class="settings__row">
-          <button
-            type="button"
-            role="menuitemradio"
-            class="settings__option"
-            [class.settings__option--active]="presentation.mode() === 'minimal'"
-            [attr.aria-checked]="presentation.mode() === 'minimal'"
-            (click)="selectPresentation('minimal')"
-          >
-            {{ i18n.t().settings.minimal }}
-          </button>
-          <button
-            type="button"
-            role="menuitemradio"
-            class="settings__option"
-            [class.settings__option--active]="presentation.mode() === 'expressive'"
-            [attr.aria-checked]="presentation.mode() === 'expressive'"
-            (click)="selectPresentation('expressive')"
-          >
-            {{ i18n.t().settings.expressive }}
-          </button>
-        </div>
-      </div>
     </div>
   }
 </div>

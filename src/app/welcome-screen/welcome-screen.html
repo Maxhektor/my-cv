@@ -1,0 +1,80 @@
+@let t = i18n.t().welcome;
+
+<div class="welcome__half welcome__half--light"
+     [class.welcome__half--selected]="selectedTheme() === 'light'"
+     data-theme="light"
+     aria-hidden="true">
+  <button
+    type="button"
+    class="welcome__pick"
+    [class.welcome__pick--active]="selectedTheme() === 'light'"
+    [attr.aria-pressed]="selectedTheme() === 'light'"
+    [attr.aria-label]="t.light"
+    (click)="pickTheme('light')"
+  >
+    <svg class="welcome__pick-icon" viewBox="0 0 24 24" width="36" height="36"
+         fill="none" stroke="currentColor" stroke-width="1.4"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
+    <span class="welcome__pick-label">{{ t.light }}</span>
+  </button>
+</div>
+
+<div class="welcome__half welcome__half--dark"
+     [class.welcome__half--selected]="selectedTheme() === 'dark'"
+     data-theme="dark"
+     aria-hidden="true">
+  <button
+    type="button"
+    class="welcome__pick"
+    [class.welcome__pick--active]="selectedTheme() === 'dark'"
+    [attr.aria-pressed]="selectedTheme() === 'dark'"
+    [attr.aria-label]="t.dark"
+    (click)="pickTheme('dark')"
+  >
+    <svg class="welcome__pick-icon" viewBox="0 0 24 24" width="36" height="36"
+         fill="none" stroke="currentColor" stroke-width="1.4"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+    </svg>
+    <span class="welcome__pick-label">{{ t.dark }}</span>
+  </button>
+</div>
+
+<div class="welcome__center">
+  <div class="welcome__card">
+    <h1 class="welcome__title">{{ t.title }}</h1>
+    <p class="welcome__subtitle">{{ t.subtitle }}</p>
+
+    <div class="welcome__lang" role="group" [attr.aria-label]="t.chooseLanguage">
+      @for (code of i18n.supported; track code) {
+        <button
+          type="button"
+          class="welcome__lang-option"
+          [class.welcome__lang-option--active]="code === selectedLang()"
+          [attr.aria-pressed]="code === selectedLang()"
+          [attr.lang]="code"
+          (click)="pickLang(code)"
+        >
+          {{ t.languages[code] }}
+        </button>
+      }
+    </div>
+
+    <button
+      type="button"
+      class="welcome__enter"
+      (click)="enter()"
+    >
+      <span class="welcome__enter-label">{{ t.enter }}</span>
+      <svg class="welcome__enter-arrow" viewBox="0 0 24 24" width="20" height="20"
+           fill="none" stroke="currentColor" stroke-width="1.6"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </svg>
+    </button>
+    <p class="welcome__hint">{{ t.enterHint }}</p>
+  </div>
+</div>

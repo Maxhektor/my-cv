@@ -1,1 +1,4 @@
 <app-cv-page />
+@if (showWelcome()) {
+  <app-welcome-screen (entered)="onEntered()" />
+}

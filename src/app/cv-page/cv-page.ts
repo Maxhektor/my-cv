@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { CV_CONTACT, ROLE_IDS, type CvSectionId } from '../cv-content';
-import type { RoleId } from '../i18n/translations';
+import { CV_CONTACT, type CvSectionId } from '../cv-content';
 import { TabsComponent, type TabItem } from '../tabs/tabs';
+import { AiChatComponent } from '../ai-chat/ai-chat';
 import { ContactFormComponent } from '../contact-form/contact-form';
 import { LanguageService } from '../i18n/language.service';
-import { PresentationService } from '../presentation/presentation.service';
 import { SettingsMenuComponent } from '../settings-menu/settings-menu';
+import { UserGrowthChartComponent } from '../user-growth-chart/user-growth-chart';
 
 interface PanelSection {
   id: CvSectionId;
@@ -16,30 +16,30 @@ interface PanelSection {
 @Component({
   selector: 'app-cv-page',
   standalone: true,
-  imports: [TabsComponent, ContactFormComponent, SettingsMenuComponent],
+  imports: [
+    TabsComponent,
+    AiChatComponent,
+    ContactFormComponent,
+    SettingsMenuComponent,
+    UserGrowthChartComponent,
+  ],
   templateUrl: './cv-page.html',
   styleUrl: './cv-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CvPageComponent {
   protected readonly i18n = inject(LanguageService);
-  protected readonly presentation = inject(PresentationService);
   protected readonly contact = CV_CONTACT;
-  protected readonly roleIds = ROLE_IDS;
   protected readonly currentYear = new Date().getFullYear();
   protected readonly phoneHref = `tel:+45${CV_CONTACT.phone.replace(/\s+/g, '')}`;
 
-  protected readonly activeRoleId = signal<RoleId>(this.roleIds[0]!);
-
-  protected readonly activeRole = computed(() => this.i18n.t().cv.roles[this.activeRoleId()]);
-
   protected readonly sections = computed<readonly PanelSection[]>(() => {
     const cv = this.i18n.t().cv;
-    const role = this.activeRole();
     return [
-      { id: 'skills', intro: '', bullets: role.skills },
-      { id: 'achievements', intro: cv.experienceHeader, bullets: role.achievements },
+      { id: 'skills', intro: '', bullets: cv.skills },
+      { id: 'achievements', intro: cv.experienceHeader, bullets: cv.achievements },
       { id: 'personality', intro: cv.pitch, bullets: cv.languages },
+      { id: 'ai', intro: '', bullets: [] },
       { id: 'contact', intro: '', bullets: [] },
     ];
   });
@@ -59,10 +59,6 @@ export class CvPageComponent {
     const sections = this.sections();
     return sections.find((section) => section.id === id) ?? sections[0]!;
   });
-
-  protected setRole(id: RoleId): void {
-    this.activeRoleId.set(id);
-  }
 
   protected panelId(id: string): string {
     return `panel-${id}`;

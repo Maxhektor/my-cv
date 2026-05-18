@@ -1,0 +1,97 @@
+@let t = i18n.t().cv.userGrowth;
+<figure class="user-growth">
+  <figcaption class="user-growth__caption">
+    <p class="user-growth__heading">{{ t.title }}</p>
+    <p class="user-growth__sub">{{ t.subtitle }}</p>
+  </figcaption>
+  <div class="user-growth__chart">
+    <svg
+      class="user-growth__svg"
+      [attr.viewBox]="viewBox"
+      role="img"
+      [attr.aria-label]="ariaLabel()"
+      focusable="false"
+    >
+      <defs>
+        <linearGradient id="userGrowthGradient" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="currentColor" stop-opacity="0.24" />
+          <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+
+      <line
+        class="user-growth__baseline"
+        [attr.x1]="padLeft"
+        [attr.x2]="plotRight"
+        [attr.y1]="baselineY"
+        [attr.y2]="baselineY"
+      />
+
+      <path class="user-growth__area" [attr.d]="areaPath" fill="url(#userGrowthGradient)" />
+      <path class="user-growth__line" [attr.d]="linePath" />
+
+      @for (tick of yearTicks; track tick.label) {
+        <line
+          class="user-growth__tick"
+          [attr.x1]="tick.x"
+          [attr.x2]="tick.x"
+          [attr.y1]="baselineY"
+          [attr.y2]="baselineY + 4"
+        />
+        <text
+          class="user-growth__tick-label"
+          [attr.x]="tick.x"
+          [attr.y]="baselineY + 16"
+          text-anchor="middle"
+        >{{ tick.label }}</text>
+      }
+
+      <line
+        class="user-growth__annotation-line"
+        [attr.x1]="join.x"
+        [attr.x2]="join.x"
+        [attr.y1]="joinLineTopY"
+        [attr.y2]="joinLineBottomY"
+      />
+      <text
+        class="user-growth__annotation-text"
+        [attr.x]="join.x"
+        [attr.y]="joinLabelY"
+        text-anchor="middle"
+      >{{ t.joinedHere }}</text>
+      <circle
+        class="user-growth__dot user-growth__dot--annotation"
+        [attr.cx]="join.x"
+        [attr.cy]="join.y"
+        r="3"
+      />
+
+      <circle
+        class="user-growth__dot"
+        [attr.cx]="first.x"
+        [attr.cy]="first.y"
+        r="2.5"
+      />
+      <circle
+        class="user-growth__dot user-growth__dot--current"
+        [attr.cx]="last.x"
+        [attr.cy]="last.y"
+        r="3.5"
+      />
+
+      <text
+        class="user-growth__value user-growth__value--start"
+        [attr.x]="first.x + 6"
+        [attr.y]="first.y - 6"
+        text-anchor="start"
+      >{{ startLabel }}</text>
+
+      <text
+        class="user-growth__value user-growth__value--end"
+        [attr.x]="last.x - 6"
+        [attr.y]="last.y - 8"
+        text-anchor="end"
+      >{{ endLabel }}</text>
+    </svg>
+  </div>
+</figure>

@@ -1,6 +1,4 @@
-import type { RoleId } from './i18n/translations';
-
-export type CvSectionId = 'skills' | 'achievements' | 'personality' | 'contact';
+export type CvSectionId = 'skills' | 'achievements' | 'personality' | 'ai' | 'contact';
 
 export interface CvContact {
   fullName: string;
@@ -15,9 +13,3 @@ export const CV_CONTACT: CvContact = {
   phone: '25 32 46 56',
   address: '2500 Valby, København, Danmark',
 };
-
-export const ROLE_IDS: readonly RoleId[] = [
-  'product-operations',
-  'product-manager',
-  'operations-generalist',
-];

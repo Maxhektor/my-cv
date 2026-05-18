@@ -1,0 +1,15 @@
+name = "cv-ai-worker"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+[vars]
+# Comma-separated list of allowed origins. Override per-environment below.
+ALLOWED_ORIGINS = "http://localhost:4200"
+
+# Set ANTHROPIC_API_KEY as a secret, not a var:
+#   npx wrangler secret put ANTHROPIC_API_KEY
+
+[env.production]
+[env.production.vars]
+# TODO: replace with your actual GitHub Pages origin
+ALLOWED_ORIGINS = "https://maxhektor.github.io"

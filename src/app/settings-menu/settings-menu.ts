@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { LanguageService } from '../i18n/language.service';
 import type { Lang } from '../i18n/translations';
-import { PresentationService, type PresentationMode } from '../presentation/presentation.service';
 import { ThemeService, type ThemeMode } from '../theme/theme.service';
 
 @Component({
@@ -21,7 +20,6 @@ import { ThemeService, type ThemeMode } from '../theme/theme.service';
 export class SettingsMenuComponent {
   protected readonly i18n = inject(LanguageService);
   protected readonly theme = inject(ThemeService);
-  protected readonly presentation = inject(PresentationService);
   private readonly host = inject(ElementRef<HTMLElement>);
 
   protected readonly open = signal(false);
@@ -40,10 +38,6 @@ export class SettingsMenuComponent {
 
   protected selectTheme(mode: ThemeMode): void {
     this.theme.setMode(mode);
-  }
-
-  protected selectPresentation(mode: PresentationMode): void {
-    this.presentation.setMode(mode);
   }
 
   @HostListener('document:click', ['$event'])

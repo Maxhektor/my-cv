@@ -106,27 +106,3 @@ button {
   cursor: pointer;
   color: inherit;
 }
-
-/* ---------------------------------------------------------------------------
-   Expressive mode
-   The settings menu can switch the site between "minimal" (default editorial)
-   and "expressive". When expressive is active, <html data-presentation="expressive">
-   is set, and a <div class="expressive-stage"> is mounted at the top of the page.
-   Add flashy content / overrides below.
-   --------------------------------------------------------------------------- */
-
-.expressive-stage {
-  /* Empty slot. Mount Spline canvas, animated gradient, parallax layers, etc. */
-}
-
-:root[data-presentation='expressive'] {
-  /* Add expressive-mode overrides here:
-     - Saturated accent: e.g. --color-accent: #...
-     - Display font swap
-     - Different surface/border treatment
-     Tokens cascade — anything redefined here applies in both light and dark. */
-}
-
-:root[data-presentation='expressive'][data-theme='dark'] {
-  /* Dark-only expressive overrides go here. */
-}

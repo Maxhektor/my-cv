@@ -1,0 +1,113 @@
+.user-growth {
+  margin: 0 0 var(--space-5);
+  padding: 0;
+}
+
+.user-growth__caption {
+  margin-bottom: var(--space-2);
+}
+
+.user-growth__heading {
+  margin: 0 0 calc(var(--space-1) / 2);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.3;
+  color: var(--color-text);
+}
+
+.user-growth__sub {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+}
+
+.user-growth__chart {
+  position: relative;
+  width: 100%;
+  color: var(--color-accent);
+}
+
+.user-growth__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.user-growth__baseline {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.user-growth__line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.user-growth__tick {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.user-growth__tick-label {
+  fill: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.user-growth__dot {
+  fill: var(--color-bg);
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.user-growth__dot--current {
+  fill: currentColor;
+  stroke: var(--color-bg);
+  stroke-width: 1.5;
+}
+
+.user-growth__dot--annotation {
+  fill: var(--color-bg);
+  stroke: currentColor;
+  stroke-width: 1.75;
+}
+
+.user-growth__annotation-line {
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+  opacity: 0.55;
+}
+
+.user-growth__annotation-text {
+  fill: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.user-growth__value {
+  font-family: var(--font-display);
+  font-weight: 500;
+}
+
+.user-growth__value--start {
+  fill: var(--color-text-muted);
+  font-size: 10px;
+}
+
+.user-growth__value--end {
+  fill: currentColor;
+  font-size: 12px;
+}

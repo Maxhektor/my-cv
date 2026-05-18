@@ -1,0 +1,154 @@
+<div class="ai">
+  <header class="ai__header">
+    <div class="ai__brand">
+      <span class="ai__monogram" aria-hidden="true">M</span>
+      <div class="ai__brand-text">
+        <span class="ai__brand-label">{{ i18n.t().ai.assistantLabel }}</span>
+        <span class="ai__status">
+          <span
+            class="ai__status-dot"
+            [class.ai__status-dot--active]="status() === 'streaming'"
+            [class.ai__status-dot--error]="status() === 'error'"
+            aria-hidden="true"
+          ></span>
+          <span class="ai__status-text">
+            @if (status() === 'streaming') {
+              {{ i18n.t().ai.sending }}
+            } @else if (status() === 'error') {
+              {{ i18n.t().ai.error }}
+            } @else {
+              online
+            }
+          </span>
+        </span>
+      </div>
+    </div>
+
+    @if (messages().length > 0) {
+      <button
+        type="button"
+        class="ai__icon-btn ai__clear"
+        (click)="clear()"
+        [attr.aria-label]="i18n.t().ai.clear"
+        [title]="i18n.t().ai.clear"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      </button>
+    }
+  </header>
+
+  <p class="ai__intro">{{ i18n.t().ai.intro }}</p>
+
+  <div
+    #threadEl
+    class="ai__thread"
+    [class.ai__thread--empty]="messages().length === 0"
+    role="log"
+    aria-live="polite"
+  >
+    @if (messages().length === 0) {
+      <div class="ai__empty">
+        <p class="ai__empty-prompt">{{ i18n.t().ai.emptyState }}</p>
+
+        <ul class="ai__suggestions" [attr.aria-label]="i18n.t().ai.intro">
+          @for (s of i18n.t().ai.suggestions; track $index; let i = $index) {
+            <li class="ai__suggestion-item" [style.--i]="i">
+              <button
+                type="button"
+                class="ai__suggestion"
+                (click)="useSuggestion(s)"
+                [disabled]="status() === 'streaming'"
+              >
+                <span class="ai__suggestion-text">{{ s }}</span>
+                <svg class="ai__suggestion-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </button>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    @for (m of messages(); track $index) {
+      <article
+        class="ai__msg"
+        [class.ai__msg--user]="m.role === 'user'"
+        [class.ai__msg--assistant]="m.role === 'assistant'"
+      >
+        @if (m.role === 'assistant') {
+          <span class="ai__avatar" aria-hidden="true">M</span>
+          <div class="ai__bubble ai__bubble--assistant">
+            <span class="ai__msg-label">{{ i18n.t().ai.assistantLabel }}</span>
+            @if (m.content.length === 0 && $last && status() === 'streaming') {
+              <span class="ai__typing" aria-label="thinking">
+                <span class="ai__typing-dot"></span>
+                <span class="ai__typing-dot"></span>
+                <span class="ai__typing-dot"></span>
+              </span>
+            } @else {
+              <div class="ai__msg-body ai__msg-body--md" [innerHTML]="renderMarkdown(m.content)"></div>
+              @if ($last && status() === 'streaming') {
+                <span class="ai__caret" aria-hidden="true"></span>
+              }
+            }
+          </div>
+        } @else {
+          <div class="ai__bubble ai__bubble--user">
+            <p class="ai__msg-body">{{ m.content }}</p>
+          </div>
+        }
+      </article>
+    }
+  </div>
+
+  <form class="ai__composer" (ngSubmit)="submit()" novalidate>
+    <div class="ai__composer-inner">
+      <textarea
+        class="ai__input"
+        rows="1"
+        [placeholder]="i18n.t().ai.placeholder"
+        [ngModel]="question()"
+        (ngModelChange)="question.set($event)"
+        name="question"
+        [disabled]="status() === 'streaming'"
+        (keydown.enter)="onEnter($event)"
+        aria-label="Message"
+      ></textarea>
+
+      @if (status() === 'streaming') {
+        <button
+          type="button"
+          class="ai__send ai__send--stop"
+          (click)="stop()"
+          aria-label="Stop generating"
+          title="Stop generating"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <rect x="6" y="6" width="12" height="12" rx="1.5" />
+          </svg>
+        </button>
+      } @else {
+        <button
+          type="submit"
+          class="ai__send"
+          [disabled]="!question().trim()"
+          [attr.aria-label]="i18n.t().ai.send"
+          [title]="i18n.t().ai.send"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 19V5M5 12l7-7 7 7" />
+          </svg>
+        </button>
+      }
+    </div>
+
+    <p class="ai__hint">
+      <kbd class="ai__kbd">Enter</kbd> to send
+      <span class="ai__hint-sep">·</span>
+      <kbd class="ai__kbd">Shift</kbd> + <kbd class="ai__kbd">Enter</kbd> for new line
+    </p>
+  </form>
+</div>

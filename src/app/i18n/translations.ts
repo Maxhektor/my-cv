@@ -2,14 +2,6 @@ export type Lang = 'en' | 'da';
 
 export const SUPPORTED_LANGS: readonly Lang[] = ['en', 'da'] as const;
 
-export type RoleId = 'product-operations' | 'product-manager' | 'operations-generalist';
-
-export interface RoleVariantTranslation {
-  label: string;
-  skills: readonly string[];
-  achievements: readonly string[];
-}
-
 export interface Translation {
   langName: string;
   header: {
@@ -23,15 +15,36 @@ export interface Translation {
     theme: string;
     light: string;
     dark: string;
-    presentation: string;
-    minimal: string;
-    expressive: string;
+  };
+  welcome: {
+    title: string;
+    subtitle: string;
+    chooseTheme: string;
+    chooseLanguage: string;
+    light: string;
+    dark: string;
+    enter: string;
+    enterHint: string;
+    languages: Record<Lang, string>;
   };
   tabs: {
     skills: string;
     achievements: string;
     personality: string;
+    ai: string;
     contact: string;
+  };
+  ai: {
+    intro: string;
+    suggestions: readonly string[];
+    placeholder: string;
+    send: string;
+    sending: string;
+    clear: string;
+    youLabel: string;
+    assistantLabel: string;
+    error: string;
+    emptyState: string;
   };
   contactForm: {
     name: string;
@@ -60,13 +73,28 @@ export interface Translation {
     pitch: string;
     experienceHeader: string;
     languages: readonly string[];
-    roleSelectorLabel: string;
     contactLabels: {
       email: string;
       phone: string;
       address: string;
     };
-    roles: Record<RoleId, RoleVariantTranslation>;
+    skills: readonly string[];
+    achievements: readonly string[];
+    userGrowth: {
+      title: string;
+      subtitle: string;
+      ariaLabel: string;
+      joinedHere: string;
+    };
+    myersBriggs: {
+      label: string;
+      type: string;
+      typeLetters: readonly string[];
+      intro: string;
+      worksWithHeading: string;
+      traits: readonly string[];
+      outro: string;
+    };
   };
 }
 
@@ -84,15 +112,40 @@ export const TRANSLATIONS: Record<Lang, Translation> = {
       theme: 'Theme',
       light: 'Light',
       dark: 'Dark',
-      presentation: 'Presentation',
-      minimal: 'Minimal',
-      expressive: 'Expressive',
+    },
+    welcome: {
+      title: 'Welcome',
+      subtitle: 'Pick appearance. Pick a language.',
+      chooseTheme: 'Choose appearance',
+      chooseLanguage: 'Language',
+      light: 'Light',
+      dark: 'Dark',
+      enter: 'Enter',
+      enterHint: 'or press Enter',
+      languages: { en: 'English', da: 'Danish' },
     },
     tabs: {
       skills: 'Skills',
       achievements: 'Achievements',
       personality: 'Personality',
+      ai: 'Ask AI',
       contact: 'Contact',
+    },
+    ai: {
+      intro: 'Ask anything about Max — his experience, skills, or what kind of work he is a good fit for.',
+      suggestions: [
+        'What kind of roles is Max a good fit for?',
+        'Tell me about Max’s biggest achievements.',
+        'How does Max approach complex problems?',
+      ],
+      placeholder: 'Ask a question…',
+      send: 'Ask',
+      sending: 'Thinking…',
+      clear: 'Clear conversation',
+      youLabel: 'You',
+      assistantLabel: 'AI',
+      error: 'Something went wrong. Please try again.',
+      emptyState: 'Your conversation will appear here.',
     },
     contactForm: {
       name: 'Name',
@@ -117,7 +170,7 @@ export const TRANSLATIONS: Record<Lang, Translation> = {
       },
     },
     cv: {
-      title: 'Product Operations Lead',
+      title: 'my CV',
       pitch: 'Short and engaging pitch about yourself.',
       experienceHeader:
         'Head of Support and Product Operations Lead at Handyhand (08/2022 – 03/2026), Copenhagen, Denmark.',
@@ -125,94 +178,66 @@ export const TRANSLATIONS: Record<Lang, Translation> = {
         'Danish — Native or Bilingual Proficiency',
         'English — Full Professional Proficiency',
       ],
-      roleSelectorLabel: 'Role focus',
       contactLabels: {
         email: 'Email',
         phone: 'Phone',
         address: 'Address',
       },
-      roles: {
-        'product-operations': {
-          label: 'Product Operations',
-          skills: [
-            'Product operations & system optimisation',
-            'Process design & scalability',
-            'Cross-functional coordination',
-            'Operational analytics & KPI ownership',
-            'Workflow automation',
-            'Customer experience optimisation',
-            'Internal tooling & admin systems',
-            'Incident & edge-case handling',
-            'Payment & marketplace operations (Stripe)',
-            'AI & automation implementation',
-          ],
-          achievements: [
-            'Scaled support and operational systems to support a platform with 100k–500k users',
-            'Built and optimised internal admin systems for non-technical staff',
-            'Replaced manual workflows with structured, scalable in-product processes',
-            'Designed and implemented a conflict resolution system, enabling consistent dispute handling',
-            'Built a claims handling system, significantly reducing manual workload',
-            'Defined and enforced operational rules and flows for disputes, cancellations, and payments',
-            'Improved operational efficiency through automation and systemisation of support tasks',
-            'Acted as bridge between support, product, and engineering, aligning priorities and execution',
-            'Implemented AI-powered tools to improve support efficiency and response consistency',
-            'Enabled scaling of support team without proportional increase in workload',
-          ],
-        },
-        'product-manager': {
-          label: 'Product Manager',
-          skills: [
-            'Product ownership & lifecycle management',
-            'Roadmapping & prioritisation',
-            'User journey & flow design',
-            'Business logic definition',
-            'Stakeholder management (engineering, support, ops)',
-            'Data-informed decision making',
-            'Feature scoping & requirements definition',
-            'UX collaboration & iteration',
-            'Agile / iterative development',
-            'Problem structuring & solution design',
-          ],
-          achievements: [
-            'Owned development of internal product systems supporting 100k–500k users',
-            'Designed and shipped a conflict resolution system (end-to-end) across DB, API, and frontend',
-            'Built a claims/insurance handling flow, replacing manual processes with structured product logic',
-            'Defined core business rules and timelines for dispute handling and payment flows',
-            'Translated customer insights into product features, improving user experience and reducing friction',
-            'Collaborated with engineering to deliver complex product features, including payment edge cases',
-            'Improved internal tools, enabling non-technical users to operate complex workflows independently',
-            'Reduced reliance on manual support by moving key processes into product flows',
-            'Contributed to UX improvements and product redesign initiatives',
-            'Introduced AI-driven product features for support and automation',
-          ],
-        },
-        'operations-generalist': {
-          label: 'Operations / Generalist',
-          skills: [
-            'Operations management & scaling',
-            'Process building in ambiguous environments',
-            'Cross-functional execution',
-            'Problem solving & prioritisation',
-            'Team leadership & coordination',
-            'Workflow design & optimisation',
-            'Systems thinking',
-            'KPI tracking & performance management',
-            'Tooling & internal system development',
-            'Adaptability in fast-paced environments',
-          ],
-          achievements: [
-            'Scaled support operations from early-stage to handling large-scale user base (100k–500k)',
-            'Built and led a support team of 6–8 people, including hiring and performance management',
-            'Designed and implemented core operational processes across support and product',
-            'Transformed unstructured workflows into scalable systems and tools',
-            'Reduced manual workload by digitising and standardising key operations',
-            'Built internal systems enabling efficient handling of complex cases at scale',
-            'Took ownership of critical operational areas (support, disputes, payments)',
-            'Identified and resolved system bottlenecks and inefficiencies',
-            'Collaborated across teams to deliver operational and product improvements',
-            'Introduced automation and AI tools to improve efficiency and scalability',
-          ],
-        },
+      skills: [
+        'Product operations & system optimisation',
+        'Product ownership & lifecycle management',
+        'Process design, scalability & automation',
+        'Roadmapping & prioritisation',
+        'Cross-functional coordination (engineering, support, ops)',
+        'User journey, flow & UX design',
+        'Business logic & rules definition',
+        'Data-informed decision making (analytics, KPIs)',
+        'Internal tooling & admin systems',
+        'Payment & marketplace operations (Stripe)',
+        'Incident, dispute & edge-case handling',
+        'Team leadership & coordination',
+        'AI & automation implementation',
+        'Systems thinking & problem structuring',
+        'Agile / iterative development',
+      ],
+      achievements: [
+        'Designed and implemented an internal AI support system handling ~85% of routine support tasks independently — answering customer questions, looking up users and marketplace activity, retrieving Stripe payment and refund information, and interacting directly with the CRM and support infrastructure',
+        'Redesigned and significantly expanded the customer-facing AI support agent, increasing resolution rate from below 20% to more than 75% before escalation to human support — reducing ticket volume and improving response times',
+        'Scaled support and operational systems to a platform with 100k–500k users',
+        'Built and led a support team of 6–8 people, including hiring and performance management',
+        'Designed and shipped a conflict resolution system end-to-end (DB, API, frontend), enabling consistent dispute handling',
+        'Built a claims/insurance handling flow, replacing manual processes with structured product logic',
+        'Defined core business rules and timelines for disputes, cancellations, and payment flows',
+        'Built and optimised internal admin systems, enabling non-technical staff to operate complex workflows independently',
+        'Replaced manual workflows with structured, scalable in-product processes — reducing reliance on manual support',
+        'Acted as bridge between support, product, and engineering, aligning priorities and execution',
+        'Enabled scaling of the support team without proportional increase in workload through automation and systemisation',
+        'Translated customer insights into product features, improving user experience and reducing friction',
+        'Contributed to broader UX improvements and product redesign initiatives',
+      ],
+      userGrowth: {
+        title: 'Platform users during my tenure',
+        subtitle: 'From 70k to 550k monthly users — Jan 2021 to May 2026',
+        ariaLabel:
+          'Line chart showing platform user growth from {start} in January 2021 to {end} in May 2026.',
+        joinedHere: 'I joined — Oct 2022',
+      },
+      myersBriggs: {
+        label: 'Myers-Briggs',
+        type: 'ENTP',
+        typeLetters: ['E', 'N', 'T', 'P'],
+        intro:
+          'I thrive in complex environments where I can combine problem-solving, systems thinking, and rapid iteration. I tend to be the person who connects engineering, operations, product, and user experience — finding patterns and solutions across areas that are usually siloed.',
+        worksWithHeading: 'As an ENTP I naturally work with:',
+        traits: [
+          'complex problems',
+          'improving flows and processes',
+          'challenging inefficient systems',
+          'ideation and execution',
+          'fast learning across disciplines',
+        ],
+        outro:
+          'In practice, this means I tend to thrive in roles with high autonomy, many moving parts, and a need for both strategic thinking and hands-on execution. I am especially motivated by making complex things simpler — for users, teams, and the business.',
       },
     },
   },
@@ -229,15 +254,40 @@ export const TRANSLATIONS: Record<Lang, Translation> = {
       theme: 'Tema',
       light: 'Lyst',
       dark: 'Mørkt',
-      presentation: 'Visning',
-      minimal: 'Minimal',
-      expressive: 'Udtryksfuld',
+    },
+    welcome: {
+      title: 'Velkommen',
+      subtitle: 'Vælg udseende. Vælg sprog.',
+      chooseTheme: 'Vælg udseende',
+      chooseLanguage: 'Sprog',
+      light: 'Lyst',
+      dark: 'Mørkt',
+      enter: 'Gå ind',
+      enterHint: 'eller tryk Enter',
+      languages: { en: 'English', da: 'Danish' },
     },
     tabs: {
       skills: 'Kompetencer',
       achievements: 'Resultater',
       personality: 'Personlighed',
+      ai: 'Spørg AI',
       contact: 'Kontakt',
+    },
+    ai: {
+      intro: 'Spørg om hvad som helst om Max — hans erfaring, kompetencer eller hvilken type roller han passer godt til.',
+      suggestions: [
+        'Hvilke roller passer Max godt til?',
+        'Fortæl mig om Max’ største resultater.',
+        'Hvordan griber Max komplekse problemer an?',
+      ],
+      placeholder: 'Stil et spørgsmål…',
+      send: 'Spørg',
+      sending: 'Tænker…',
+      clear: 'Ryd samtale',
+      youLabel: 'Dig',
+      assistantLabel: 'AI',
+      error: 'Noget gik galt. Prøv venligst igen.',
+      emptyState: 'Din samtale vises her.',
     },
     contactForm: {
       name: 'Navn',
@@ -262,7 +312,7 @@ export const TRANSLATIONS: Record<Lang, Translation> = {
       },
     },
     cv: {
-      title: 'Product Operations Lead',
+      title: 'mit CV',
       pitch: 'Kort og engagerende pitch om dig selv.',
       experienceHeader:
         'Head of Support og Product Operations Lead hos Handyhand (08/2022 – 03/2026), København, Danmark.',
@@ -270,94 +320,66 @@ export const TRANSLATIONS: Record<Lang, Translation> = {
         'Dansk — Modersmål',
         'Engelsk — Fuld professionel kunnen',
       ],
-      roleSelectorLabel: 'Rollefokus',
       contactLabels: {
         email: 'E-mail',
         phone: 'Telefon',
         address: 'Adresse',
       },
-      roles: {
-        'product-operations': {
-          label: 'Product Operations',
-          skills: [
-            'Produktdrift og systemoptimering',
-            'Procesdesign og skalerbarhed',
-            'Tværfunktionel koordinering',
-            'Driftsanalyse og KPI-ejerskab',
-            'Workflow-automatisering',
-            'Optimering af kundeoplevelsen',
-            'Interne værktøjer og adminsystemer',
-            'Håndtering af hændelser og særtilfælde',
-            'Betalings- og marketplace-drift (Stripe)',
-            'Implementering af AI og automatisering',
-          ],
-          achievements: [
-            'Skalerede support- og driftssystemer til en platform med 100.000–500.000 brugere',
-            'Byggede og optimerede interne adminsystemer til ikke-tekniske medarbejdere',
-            'Erstattede manuelle arbejdsgange med strukturerede, skalerbare in-produkt-processer',
-            'Designede og implementerede et konflikthåndteringssystem, der sikrer ensartet tvistbehandling',
-            'Byggede et skadehåndteringssystem, der markant reducerede manuel arbejdsbyrde',
-            'Definerede og håndhævede driftsregler og flows for tvister, annulleringer og betalinger',
-            'Forbedrede driftseffektivitet gennem automatisering og systematisering af supportopgaver',
-            'Fungerede som bro mellem support, produkt og engineering med fokus på prioriteter og eksekvering',
-            'Implementerede AI-drevne værktøjer til at forbedre supporteffektivitet og svarkonsistens',
-            'Muliggjorde skalering af supportteamet uden tilsvarende stigning i arbejdsbyrden',
-          ],
-        },
-        'product-manager': {
-          label: 'Product Manager',
-          skills: [
-            'Produktejerskab og livscyklusstyring',
-            'Roadmap og prioritering',
-            'Brugerrejse- og flowdesign',
-            'Definition af forretningslogik',
-            'Stakeholderstyring (engineering, support, drift)',
-            'Dataunderstøttede beslutninger',
-            'Feature-scoping og kravspecificering',
-            'UX-samarbejde og iteration',
-            'Agil / iterativ udvikling',
-            'Problemstrukturering og løsningsdesign',
-          ],
-          achievements: [
-            'Drev udvikling af interne produktsystemer til 100.000–500.000 brugere',
-            'Designede og leverede et konflikthåndteringssystem (end-to-end) på tværs af DB, API og frontend',
-            'Byggede et flow til skadehåndtering/forsikring, der erstattede manuelle processer med struktureret produktlogik',
-            'Definerede centrale forretningsregler og tidsfrister for tvistbehandling og betalingsflows',
-            'Omsatte kundeindsigter til produktfeatures, der forbedrede brugeroplevelsen og reducerede friktion',
-            'Samarbejdede med engineering om at levere komplekse produktfeatures, inkl. betalings-edge-cases',
-            'Forbedrede interne værktøjer, så ikke-tekniske brugere kunne håndtere komplekse arbejdsgange selvstændigt',
-            'Reducerede afhængighed af manuel support ved at flytte centrale processer ind i produktflows',
-            'Bidrog til UX-forbedringer og redesigninitiativer',
-            'Introducerede AI-drevne produktfeatures til support og automatisering',
-          ],
-        },
-        'operations-generalist': {
-          label: 'Operations / Generalist',
-          skills: [
-            'Driftsledelse og skalering',
-            'Procesopbygning i tvetydige miljøer',
-            'Tværfunktionel eksekvering',
-            'Problemløsning og prioritering',
-            'Teamledelse og koordinering',
-            'Workflow-design og -optimering',
-            'Systemtænkning',
-            'KPI-tracking og performance management',
-            'Værktøjer og udvikling af interne systemer',
-            'Tilpasningsevne i hurtige miljøer',
-          ],
-          achievements: [
-            'Skalerede support-drift fra tidlig fase til håndtering af stor brugerbase (100.000–500.000)',
-            'Byggede og ledede et supportteam på 6–8 personer, inkl. rekruttering og performance management',
-            'Designede og implementerede centrale driftsprocesser på tværs af support og produkt',
-            'Omdannede ustrukturerede arbejdsgange til skalerbare systemer og værktøjer',
-            'Reducerede manuel arbejdsbyrde ved at digitalisere og standardisere centrale processer',
-            'Byggede interne systemer der muliggjorde effektiv håndtering af komplekse sager i stor skala',
-            'Tog ejerskab over kritiske driftsområder (support, tvister, betalinger)',
-            'Identificerede og løste systemflaskehalse og ineffektivitet',
-            'Samarbejdede på tværs af teams om drifts- og produktforbedringer',
-            'Introducerede automatiserings- og AI-værktøjer til at forbedre effektivitet og skalerbarhed',
-          ],
-        },
+      skills: [
+        'Produktdrift og systemoptimering',
+        'Produktejerskab og livscyklusstyring',
+        'Procesdesign, skalerbarhed og automatisering',
+        'Roadmap og prioritering',
+        'Tværfunktionel koordinering (engineering, support, drift)',
+        'Brugerrejse-, flow- og UX-design',
+        'Definition af forretningslogik og regler',
+        'Dataunderstøttede beslutninger (analytics, KPI’er)',
+        'Interne værktøjer og adminsystemer',
+        'Betalings- og marketplace-drift (Stripe)',
+        'Hændelses-, tvist- og edge-case-håndtering',
+        'Teamledelse og koordinering',
+        'Implementering af AI og automatisering',
+        'Systemtænkning og problemstrukturering',
+        'Agil / iterativ udvikling',
+      ],
+      achievements: [
+        'Designede og implementerede et internt AI-supportsystem, der selvstændigt håndterede ca. 85% af rutineprægede supportopgaver — besvarede kundespørgsmål, slog brugere og marketplace-aktivitet op, hentede betalings- og refunderingsinformation via Stripe API og interagerede direkte med CRM og supportinfrastruktur',
+        'Redesignede og udvidede markant den kundevendte AI-supportagent og hævede løsningsraten fra under 20% til mere end 75% før eskalering til menneskelig support — reducerede ticket-volumen og forbedrede svartider',
+        'Skalerede support- og driftssystemer til en platform med 100.000–500.000 brugere',
+        'Byggede og ledede et supportteam på 6–8 personer, inkl. rekruttering og performance management',
+        'Designede og leverede et konflikthåndteringssystem end-to-end (DB, API, frontend), der sikrer ensartet tvistbehandling',
+        'Byggede et flow til skadehåndtering/forsikring, der erstattede manuelle processer med struktureret produktlogik',
+        'Definerede centrale forretningsregler og tidsfrister for tvister, annulleringer og betalingsflows',
+        'Byggede og optimerede interne adminsystemer, så ikke-tekniske medarbejdere kunne håndtere komplekse arbejdsgange selvstændigt',
+        'Erstattede manuelle arbejdsgange med strukturerede, skalerbare in-produkt-processer — reducerede afhængighed af manuel support',
+        'Fungerede som bro mellem support, produkt og engineering med fokus på prioriteter og eksekvering',
+        'Muliggjorde skalering af supportteamet uden tilsvarende stigning i arbejdsbyrden gennem automatisering og systematisering',
+        'Omsatte kundeindsigter til produktfeatures, der forbedrede brugeroplevelsen og reducerede friktion',
+        'Bidrog til bredere UX-forbedringer og redesigninitiativer',
+      ],
+      userGrowth: {
+        title: 'Platformbrugere i min ansættelsesperiode',
+        subtitle: 'Fra 70k til 550k månedlige brugere — jan 2021 til maj 2026',
+        ariaLabel:
+          'Linjediagram der viser platformens brugervækst fra {start} i januar 2021 til {end} i maj 2026.',
+        joinedHere: 'Jeg startede — okt. 2022',
+      },
+      myersBriggs: {
+        label: 'Myers-Briggs',
+        type: 'ENTP',
+        typeLetters: ['E', 'N', 'T', 'P'],
+        intro:
+          'Jeg trives bedst i komplekse miljøer, hvor jeg kan kombinere problemløsning, systemforståelse og hurtig iteration. Jeg er typisk personen der forbinder teknik, drift, produkt og brugeroplevelse — og finder mønstre eller løsninger på tværs af områder, der normalt er opdelt.',
+        worksWithHeading: 'Som ENTP arbejder jeg meget naturligt med:',
+        traits: [
+          'komplekse problemstillinger',
+          'forbedring af flows og processer',
+          'udfordring af ineffektive systemer',
+          'idéudvikling og eksekvering',
+          'hurtig læring på tværs af fagområder',
+        ],
+        outro:
+          'Det betyder i praksis, at jeg ofte fungerer godt i roller med høj autonomi, mange bevægelige dele og behov for både strategisk tænkning og hands-on execution. Jeg motiveres især af at gøre komplekse ting simplere — både for brugere, teams og forretningen.',
       },
     },
   },
